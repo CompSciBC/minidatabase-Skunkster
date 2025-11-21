@@ -53,14 +53,13 @@ struct Engine {
         if(index == nullptr) return false; //If the id doesn't exist, returns false
 
         idIndex.erase(id); //Erases id from idIndex
-        Record rec = heap[*index]; //Makes it easier to read and type record at heap[*index]
 
-        rec.deleted = true; //soft delete from heap
-        vector<int> lname = *lastIndex.find(toLower(rec.last)); //Gets vector from last name
+        heap[*index].deleted = true; //soft delete from heap
+        vector<int> *lname = lastIndex.find(toLower(heap[*index].last)); //Gets vector from last name
 
-        for(int i = 0; i < lname.size(); i++) { //Loops through
-            if(lname.at(i) == *index) {
-                lname.erase(lname.begin() + i); //Erases index from lastIndex vector
+        for(int i = 0; i < lname->size(); i++) { //Loops through
+            if(lname->at(i) == *index) {
+                lname->erase(lname->begin() + i); //Erases index from lastIndex vector
             }
         }
 
