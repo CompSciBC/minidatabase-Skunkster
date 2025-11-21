@@ -71,14 +71,23 @@ struct Engine {
     // Returns a pointer to the record, or nullptr if not found.
     // Outputs the number of comparisons made in the search.
     const Record *findById(int id, int &cmpOut) {
-       Record *student = &heap.at(*idIndex.find(id)); //Saves address of student record with idIndex
+        int *rid = idIndex.find(id);
+        if(rid == nullptr) { //If no such id is found in idIndex
+            cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
+            idIndex.resetMetrics();
 
-       cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
-       idIndex.resetMetrics();
+            cout << cmpOut << endl; //prints comparisons
+            return nullptr; //returns nullptr as no student found
+        }
 
-       cout << cmpOut << endl; //Outputs comparisons in find
+        Record *student = &heap.at(*rid); //Saves address of student record with idIndex
 
-       return student; //returns pointer to student record
+        cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
+        idIndex.resetMetrics();
+
+        cout << cmpOut << endl; //Outputs comparisons in find
+
+        return student; //returns pointer to student record
     }
 
     // Returns all records with ID in the range [lo, hi].
@@ -112,8 +121,8 @@ struct Engine {
             }
         });
 
-        cmpOut = idIndex.comparisons; //Gets comparisons
-        idIndex.resetMetrics();
+        cmpOut = lastIndex.comparisons; //Gets comparisons
+        lastIndex.resetMetrics();
         
         cout << cmpOut << endl; //Prints comparisons
         return students; //Returns students
