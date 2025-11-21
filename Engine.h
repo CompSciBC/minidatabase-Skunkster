@@ -84,7 +84,17 @@ struct Engine {
     // Returns all records with ID in the range [lo, hi].
     // Also reports the number of key comparisons performed.
     vector<const Record *> rangeById(int lo, int hi, int &cmpOut) {
-        //TODO
+        vector<const Record *> students; //Creates vector to be returned
+
+        idIndex.rangeApply(lo, hi, [&](const int &k, int &rid) { //Runs through every key in lo-hi range
+            students.push_back(&heap.at(rid)); //Pushes value address from heap into students vector
+        });
+
+        cmpOut = idIndex.comparisons; //Gets comparisons
+        idIndex.comparisons = 0;
+        
+        cout << cmpOut << endl; //Prints comparisons
+        return students; //Returns students
     }
 
     // Returns all records whose last name begins with a given prefix.
