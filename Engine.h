@@ -71,7 +71,14 @@ struct Engine {
     // Returns a pointer to the record, or nullptr if not found.
     // Outputs the number of comparisons made in the search.
     const Record *findById(int id, int &cmpOut) {
-        //TODO    
+       Record *student = &heap.at(*idIndex.find(id)); //Saves address of student record with idIndex
+
+       cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
+       idIndex.comparisons = 0; //I believe this has to be reset, might be wrong
+
+       cout << cmpOut << endl; //Outputs comparisons in find
+
+       return student; //returns pointer to student record
     }
 
     // Returns all records with ID in the range [lo, hi].
