@@ -74,7 +74,7 @@ struct Engine {
        Record *student = &heap.at(*idIndex.find(id)); //Saves address of student record with idIndex
 
        cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
-       idIndex.comparisons = 0; //I believe this has to be reset, might be wrong
+       idIndex.resetMetrics();
 
        cout << cmpOut << endl; //Outputs comparisons in find
 
@@ -87,11 +87,11 @@ struct Engine {
         vector<const Record *> students; //Creates vector to be returned
 
         idIndex.rangeApply(lo, hi, [&](const int &k, int &rid) { //Runs through every key in lo-hi range
-            students.push_back(&heap.at(rid)); //Pushes value address from heap into students vector
+            students.push_back(&heap.at(rid)); //Pushes value from heap into students vector
         });
 
         cmpOut = idIndex.comparisons; //Gets comparisons
-        idIndex.comparisons = 0;
+        idIndex.resetMetrics();
         
         cout << cmpOut << endl; //Prints comparisons
         return students; //Returns students
@@ -100,7 +100,23 @@ struct Engine {
     // Returns all records whose last name begins with a given prefix.
     // Case-insensitive using lowercase comparison.
     vector<const Record *> prefixByLast(const string &prefix, int &cmpOut) {
-        //TODO
+        vector<const Record *> students; //Creates vector to be returned
+
+        string lowerpre = toLower(prefix);
+        string lo = lowerpre; //Assuming prefix "Mc" would include "Mc" as a valid answer
+        string hi = lowerpre + "z";
+
+        lastIndex.rangeApply(lo, hi, [&](const string &k, vector<int> &rid) {
+            for(int i : rid) {
+                students.push_back(&heap.at(i)); //Pushes value from each student in heap with index in last name vector to students output
+            }
+        });
+
+        cmpOut = idIndex.comparisons; //Gets comparisons
+        idIndex.resetMetrics();
+        
+        cout << cmpOut << endl; //Prints comparisons
+        return students; //Returns students
     }
 };
 
