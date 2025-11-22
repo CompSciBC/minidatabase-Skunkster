@@ -60,9 +60,12 @@ struct Engine {
         for(int i = 0; i < lname->size(); i++) { //Loops through
             if(lname->at(i) == *index) {
                 lname->erase(lname->begin() + i); //Erases index from lastIndex vector
+                break;
             }
         }
 
+        idIndex.resetMetrics();
+        lastIndex.resetMetrics();
         return true;
     }
 
