@@ -42,7 +42,7 @@ struct Engine {
             lname->push_back(rec_ind); //Adds index to existing vector
         }
 
-        idIndex.resetMetrics();
+        idIndex.resetMetrics(); //Resets comparison counters
         lastIndex.resetMetrics();
         return rec_ind;
     }
@@ -60,13 +60,13 @@ struct Engine {
         for(int i = 0; i < lname->size(); i++) { //Loops through
             if(lname->at(i) == *index) {
                 lname->erase(lname->begin() + i); //Erases index from lastIndex vector
-                break;
+                break; //Stops counting through everything
             }
         }
 
         idIndex.erase(id); //Erases id from idIndex
 
-        idIndex.resetMetrics();
+        idIndex.resetMetrics(); //Resets counter
         lastIndex.resetMetrics();
         return true;
     }
@@ -89,8 +89,6 @@ struct Engine {
         cmpOut = idIndex.comparisons; //Sets to comparison counter in idIndex
         idIndex.resetMetrics();
 
-        cout << cmpOut << endl; //Outputs comparisons in find
-
         return student; //returns pointer to student record
     }
 
@@ -105,8 +103,7 @@ struct Engine {
 
         cmpOut = idIndex.comparisons; //Gets comparisons
         idIndex.resetMetrics();
-        
-        cout << cmpOut << endl; //Prints comparisons
+
         return students; //Returns students
     }
 
@@ -117,7 +114,7 @@ struct Engine {
 
         string lowerpre = toLower(prefix);
         string lo = lowerpre; //Assuming prefix "Mc" would include "Mc" as a valid answer
-        string hi = lowerpre + "z";
+        string hi = lowerpre + "z"; //Unsure of how to change "Mc" to "Md", so I set high to "Mcz" which covers the same bases (assuming inclusive)
 
         lastIndex.rangeApply(lo, hi, [&](const string &k, vector<int> &rid) {
             for(int i : rid) {
@@ -127,8 +124,6 @@ struct Engine {
 
         cmpOut = lastIndex.comparisons; //Gets comparisons
         lastIndex.resetMetrics();
-        
-        cout << cmpOut << endl; //Prints comparisons
         return students; //Returns students
     }
 };
