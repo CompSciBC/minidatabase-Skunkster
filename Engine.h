@@ -42,6 +42,8 @@ struct Engine {
             lname->push_back(rec_ind); //Adds index to existing vector
         }
 
+        idIndex.resetMetrics();
+        lastIndex.resetMetrics();
         return rec_ind;
     }
 
@@ -52,8 +54,6 @@ struct Engine {
 
         if(index == nullptr) return false; //If the id doesn't exist, returns false
 
-        idIndex.erase(id); //Erases id from idIndex
-
         heap[*index].deleted = true; //soft delete from heap
         vector<int> *lname = lastIndex.find(toLower(heap[*index].last)); //Gets vector from last name
 
@@ -63,6 +63,8 @@ struct Engine {
                 break;
             }
         }
+
+        idIndex.erase(id); //Erases id from idIndex
 
         idIndex.resetMetrics();
         lastIndex.resetMetrics();
