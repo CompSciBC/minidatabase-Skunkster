@@ -114,7 +114,7 @@ struct Engine {
 
         string lowerpre = toLower(prefix);
         string lo = lowerpre; //Assuming prefix "Mc" would include "Mc" as a valid answer
-        string hi = lowerpre + "z"; //Unsure of how to change "Mc" to "Md", so I set high to "Mcz" which covers the same bases (assuming inclusive)
+        string hi = lowerpre + "{"; //{'s ASCII value is one more than z, so this is the better option
 
         lastIndex.rangeApply(lo, hi, [&](const string &k, vector<int> &rid) {
             for(int i : rid) {
